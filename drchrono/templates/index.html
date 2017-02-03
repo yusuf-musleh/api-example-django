@@ -1,8 +1,27 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
-  <body>
-    <a href="{% url 'social:begin' 'drchrono' %}">
-      drchrono OAuth
-    </a>
-  </body>
+
+	<head>
+	    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	</head>
+
+
+  	<body>
+
+	  	{% if user.is_authenticated %}
+			<p>Hello from index, {{ user.username }}!</p>
+			<br>
+			<a href="/logout">Logout</a>
+		{% else %}
+			<p>Please login to drchrono!</p>
+
+
+		{% endif %}
+
+	<script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  	</body>
 </html>
+
+
