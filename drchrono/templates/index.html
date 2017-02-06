@@ -1,27 +1,130 @@
 {% load staticfiles %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<head>
-	    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	</head>
+
+    <title>Patient Birthday Reminder</title>
+
+    <!-- Bootstrap core CSS -->
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
 
 
-  	<body>
+  </head>
 
-	  	{% if user.is_authenticated %}
-			<p>Hello from index, {{ user.username }}!</p>
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Patient Birthday Reminder</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="/logout">Logout <span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+
+  	  	{% if user.is_authenticated %}
+			<h2>Welcome {{ user.username }}! </h2>
 			<br>
-			<a href="/logout">Logout</a>
+			<div style='width:350px'>
+				<h3>Birthdays Today</h3>
+				<hr>
+			</div>
+			{% if birthdays_today %}
+				{% for p in birthdays_today %}
+					<div class='row'>
+						<div class="col-md-9">
+							<p><b>Name:</b> {{ p.first_name }} {{ p.last_name }} </p>
+							<p><b>Date of Birth:</b> {{ p.date_of_birth }}</p>
+						</div>
+						<div class="col-md-2">
+							<button type="button" class="btn btn-success">Wish {{ p.first_name }} a Happy Birthday!</button>
+						</div>
+					</div>
+					<hr>
+					{% endfor %}
+			{% else %}
+				<h5>None of your patients have birthdays today.</h5>
+			{% endif %}
+			<div style="width: 350px">
+				<h3>Upcoming Birthdays</h3>
+				<hr>
+			</div>
+			{% if birthdays_before or birthdays_after or no_birthdays %}
+				{% for p in birthdays_after %}
+					<div class='row'>
+						<div class="col-md-9">
+							<p><b>Name:</b> {{ p.1.first_name }} {{ p.1.last_name }} </p>
+							<p><b>Date of Birth:</b> {{ p.1.date_of_birth }}</p>
+						</div>
+					</div>
+					<hr>
+				{% endfor %}
+				{% for p in birthdays_before %}
+					<div class='row'>
+						<div class="col-md-9">
+							<p><b>Name:</b> {{ p.1.first_name }} {{ p.1.last_name }} </p>
+							<p><b>Date of Birth:</b> {{ p.1.date_of_birth }}</p>
+						</div>
+					</div>
+					<hr>
+				{% endfor %}
+				{% for p in no_birthdays %}
+					<div class='row'>
+						<div class="col-md-9">
+							<p><b>Name:</b> {{ p.first_name }} {{ p.last_name }} </p>
+							<p><b>Date of Birth:</b> {{ p.date_of_birth }}</p>
+						</div>
+					</div>
+					<hr>
+				{% endfor %}
+
+			{% else %}
+				<h5>You have no Patients!</h5>
+			{% endif %}
+
 		{% else %}
-			<p>Please login to drchrono!</p>
+			<h5>Please login to drchrono!</h5>
 
 
 		{% endif %}
 
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
 	<script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  	</body>
+    <script src="{% static 'js/jstz.min.js' %}"></script>
+    <script src="{% static 'js/js.cookie.js' %}"></script>
+    <script src="{% static 'js/script.js' %}" ></script>
+
+  </body>
 </html>
-
-

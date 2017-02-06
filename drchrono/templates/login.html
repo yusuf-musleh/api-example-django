@@ -16,7 +16,12 @@
 			<a href="/logout">Logout</a>
 		{% else %}
 			<!-- <a href="{% url 'social:begin' 'drchrono' %}">Login with drchrono</a> -->
-
+			<div style="text-align: center">
+				<h1>Patient Birthday Reminder</h1>
+				<br>
+				<h3>Build awesome relationships with your patients by wishing them a Happy Birthday!</h3>
+			</div>
+			<br>
 			<a class="button" href="{% url 'social:begin' 'drchrono' %}">
 		  		<span class="away"><img style="max-width: 150px" src="{% static 'imgs/drchrono-login-logo.png' %}"></span>
 		  		<span class="over">Sign in with drchrono</span>
