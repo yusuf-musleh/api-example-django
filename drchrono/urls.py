@@ -13,4 +13,7 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
+
+    url(r'^send_wishes/', views.send_wishes, name='send_wishes'),
+
 ]

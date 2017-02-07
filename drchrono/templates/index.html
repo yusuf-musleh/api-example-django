@@ -50,7 +50,9 @@
 
 
   	  	{% if user.is_authenticated %}
-			<h2>Welcome {{ user.username }}! </h2>
+	      	<div id='message_success'>
+	      	</div>
+			<h2>Welcome Dr. {{ user.first_name }}! </h2>
 			<br>
 			<div style='width:350px'>
 				<h3>Birthdays Today</h3>
@@ -64,7 +66,7 @@
 							<p><b>Date of Birth:</b> {{ p.date_of_birth }}</p>
 						</div>
 						<div class="col-md-2">
-							<button type="button" class="btn btn-success">Wish {{ p.first_name }} a Happy Birthday!</button>
+							<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-doctor="{{ user.first_name }} {{ user.last_name }}" data-patient="{{ p.first_name }}" data-email="{{ p.email }}" >Wish {{ p.first_name }} a Happy Birthday!</button>
 						</div>
 					</div>
 					<hr>
@@ -116,6 +118,43 @@
 		{% endif %}
 
     </div> <!-- /container -->
+
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	      	<div id='message_failed'>
+	      	</div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+	      </div>
+
+          <form role="form" id='wish_birthday_form' method="post" action="#" onSubmit="return submit_wish_birthday({% url 'send_wishes' %}, '{{ csrf_token }}')">
+	      	<div class="modal-body">
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">Recipient:</label>
+	            <input type="email" class="form-control" id="recipient-email" required>
+	          </div>
+  	          <div class="form-group">
+	            <label for="subject-name" class="control-label">Subject:</label>
+	            <input type="text" class="form-control" id="subject-name" pattern=".*\S+.*" required>
+	          </div>
+	          <div class="form-group">
+	            <label for="message-text" class="control-label">Message:</label>
+	            <textarea style="min-height: 150px" class="form-control" id="message-text" required></textarea>
+	          </div>
+		    </div>
+		    <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="submit" class="btn btn-success">Send</button>
+		    </div>
+		  </form>
+	    </div>
+	  </div>
+	</div>
+
+
 
 
     <!-- Bootstrap core JavaScript

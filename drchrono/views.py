@@ -1,12 +1,15 @@
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.core.mail import send_mail
 
 from datetime import datetime
 
-import requests
+import requests, json
 from pytz import timezone
 
+from django.http import HttpResponse
 
 def get_month_day_str(date_str):
 	dash_split = date_str.split('-')
@@ -82,3 +85,22 @@ def login_page(request):
 		return redirect('/')
 	else:
 		return render(request, 'login.html')
+
+@login_required(login_url='/login_page')
+def send_wishes(request):
+
+	try:
+		subject = request.POST['subject']
+		recipient = request.POST['recipient']
+		message = request.POST['message']
+		send_mail(subject, message, 'drchronot@gmail.com', [recipient], fail_silently=False)
+		success_data = {'status': 'success', 'message': 'Message Sent!'}
+		return HttpResponse(json.dumps(success_data))
+	except:
+		failed_data = {'status': 'failed', 'message': 'Failed to send email!'}
+		return HttpResponse(json.dumps(failed_data))
+
+
+
+
+
